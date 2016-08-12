@@ -30,7 +30,8 @@ class nomisma extends Component {
     this.setState((state) => {
       return {
         convertTo: oldFrom,
-        convertFrom: oldTo
+        convertFrom: oldTo,
+        equivalentAmount:''
       }
     });
   }
