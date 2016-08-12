@@ -60,25 +60,24 @@ class nomisma extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text
-          style={styles.result}>
-          {this.state.equivalentAmount}
-        </Text>
-        <TouchableHighlight onPress={this.switchCurrency.bind(this)}>
-          <Image
-            style={styles.switch}
-            source={require('./switch.png')}
-        />
-       </TouchableHighlight>
-        <TextInput
+         <TextInput
             style={styles.amountInput}
             keyboardType='number-pad'
             placeholder="Enter amount"
             onChangeText={(text) => this.setState({text})}
             value={this.state.text}
             onSubmitEditing={(event) => this.getAmount(event.nativeEvent.text)}
+        ></TextInput>
+        <TouchableHighlight onPress={this.switchCurrency.bind(this)}>
+          <Image
+            style={styles.switch}
+            source={require('./switch.png')}
         />
-
+       </TouchableHighlight>
+         <Text
+          style={styles.result}>
+          {this.state.equivalentAmount}
+        </Text>
       </View>
     );
   }
@@ -89,7 +88,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#eeebe8',
   },
   welcome: {
     fontSize: 24,
@@ -97,13 +96,14 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   amountInput:{
-    height:40,
-    borderColor: 'gray', 
-    borderWidth: 1, 
-    width:395,
+    height:50,
+    borderRadius:3,
+    width:355,
     textAlign: 'center',
-    marginLeft:10,
-    marginTop:30
+    marginLeft:30,
+    marginBottom: 30,
+    backgroundColor: '#fff',
+    shadowColor: 'rgba(187,187,187,1)'
   },
   switch:{
     width:50,
@@ -112,12 +112,15 @@ const styles = StyleSheet.create({
     marginTop:30
   },
   result:{
-    borderWidth:2,
-    borderColor:'#000',
-    width:395,
-    height:40,
+    borderBottomWidth:2,
+    borderBottomColor:'#000',
+    width:355,
+    height:50,
     textAlign:'center',
-    paddingTop:10
+    marginTop:55,
+    paddingTop:10,
+    backgroundColor:'#fff',
+    borderRadius:4
   }
 });
 
