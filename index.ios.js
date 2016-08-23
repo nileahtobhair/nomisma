@@ -36,6 +36,10 @@ class nomisma extends Component {
     });
   }
 
+  home(){
+
+  }
+
   getAmount(amount){
     this.setState((state) => {
       return {
@@ -60,6 +64,12 @@ class nomisma extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <TouchableHighlight onPress={this.home}>
+          <Image
+            style={styles.logo}
+            source={require('./logo.png')}
+        />
+       </TouchableHighlight>
          <TextInput
             style={styles.amountInput}
             keyboardType='number-pad'
@@ -86,41 +96,38 @@ class nomisma extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#eeebe8',
-  },
-  welcome: {
-    fontSize: 24,
-    textAlign: 'center',
-    margin: 20,
   },
   amountInput:{
     height:50,
-    borderRadius:3,
     width:355,
     textAlign: 'center',
     marginLeft:30,
-    marginBottom: 30,
-    backgroundColor: '#fff',
-    shadowColor: 'rgba(187,187,187,1)'
+    marginTop:60,
+    borderWidth:1,
+    borderColor:'#A19A9A',
+    color:'#A19A9A'
   },
   switch:{
-    width:50,
-    height:50,
-    marginLeft:300,
-    marginTop:30
+    width:40,
+    height:40,
+    marginTop:50
+  },
+   logo:{
+    marginTop:100,
+    width:185,
+    height:185,
   },
   result:{
-    borderBottomWidth:2,
-    borderBottomColor:'#000',
+    borderColor:'#A19A9A',
     width:355,
     height:50,
+    paddingTop:15,
     textAlign:'center',
     marginTop:55,
-    paddingTop:10,
-    backgroundColor:'#fff',
-    borderRadius:4
+    fontSize:16,
+    borderWidth:1,
+    color:'#A19A9A'
   }
 });
 
