@@ -21,6 +21,8 @@ class nomisma extends Component {
     this.state = {text: undefined};
     this.state.convertFrom= 'GBP';
     this.state.convertTo= 'EUR';
+    this.state.symbols = {"EUR":"€","GBP":"£"};
+    this.state.equivalentAmount = '';
   }
 
   switchCurrency(){
@@ -64,31 +66,11 @@ class nomisma extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableHighlight onPress={this.home}>
-          <Image
-            style={styles.logo}
-            source={require('./logo.png')}
-        />
-       </TouchableHighlight>
-         <TextInput
-            style={styles.amountInput}
-            keyboardType='number-pad'
-            placeholder="Enter amount"
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
-            onSubmitEditing={(event) => this.getAmount(event.nativeEvent.text)}
-        ></TextInput>
-        <TouchableHighlight onPress={this.switchCurrency.bind(this)}>
-          <Image
-            style={styles.switch}
-            source={require('./switch.png')}
-        />
-       </TouchableHighlight>
-         <Text
-          style={styles.result}>
-          {this.state.equivalentAmount}
-        </Text>
-      </View>
+        <View style={styles.logoView}><TouchableHighlight style={styles.logo} onPress={this.home}><Image source={require('./logo.png')} /></TouchableHighlight></View>
+        <View style={styles.revertView}><TouchableHighlight style={styles.switch} onPress={this.switchCurrency.bind(this)}><Image source={require('./switch.png')}/></TouchableHighlight></View>
+        <View style={styles.amountView}><Text style={styles.currencySymbol}>{this.state.symbols[this.state.convertTo]}</Text><TextInput style={styles.amountInput} keyboardType='number-pad'  placeholder="Enter amount" onChangeText={(text) => this.setState({text})} value={this.state.text} onSubmitEditing={(event) => this.getAmount(event.nativeEvent.text)}></TextInput></View>
+         <View style={styles.resultView}><Text style={styles.currencySymbol}>{this.state.symbols[this.state.convertFrom]}</Text><Text style={styles.amountEqv}>{this.state.equivalentAmount}</Text></View>
+     </View>
     );
   }
 }
@@ -96,39 +78,64 @@ class nomisma extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
   },
-  amountInput:{
-    height:50,
-    width:355,
-    textAlign: 'center',
-    marginLeft:30,
-    marginTop:60,
-    borderWidth:1,
-    borderColor:'#A19A9A',
-    color:'#A19A9A'
+  logo:{
+  },
+  logoView:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex:1.5,
+    alignItems: 'center',
+    paddingRight:10
+  },
+  revertView:{
+    flex:0.25,
   },
   switch:{
-    width:40,
-    height:40,
-    marginTop:50
+     alignSelf: 'flex-end',
+     marginRight:20
   },
-   logo:{
-    marginTop:100,
-    width:185,
-    height:185,
+  amountView:{
+    flex:0.5,
+    justifyContent: 'center',
+    alignItems: 'center'
+
   },
-  result:{
-    borderColor:'#A19A9A',
-    width:355,
-    height:50,
-    paddingTop:15,
-    textAlign:'center',
-    marginTop:55,
-    fontSize:16,
+  resultView:{
+    flex:0.5,
+    flexDirection: 'row'
+  },
+  amountInput:{
     borderWidth:1,
-    color:'#A19A9A'
+    borderColor:'#000',
+    width:250,
+    height:50,
+    borderRadius:4,
+    padding:15,
+    alignSelf: 'center',
+    flex:0.5
+  },
+  amountEqv:{
+    borderWidth:1,
+    borderColor:'#000',
+    height:50,
+    padding:15,
+    fontSize:16,
+    borderRadius:4,
+    alignSelf: 'center',
+    flex:6
+  },
+  currencySymbol:{
+    flex:1,
+    height:50,
+    fontSize:20,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    paddingLeft:80,
+    paddingTop:15
   }
+
+
 });
 
 AppRegistry.registerComponent('nomisma', () => nomisma);

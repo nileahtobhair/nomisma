@@ -1,0 +1,107 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+import React, { Component } from 'react';
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableHighlight,
+  Image
+} from 'react-native';
+
+class nomisma extends Component {
+  constructor(props){
+    super(props);
+    this.state = {text: undefined};
+    this.state.convertFrom= 'GBP';
+    this.state.convertTo= 'EUR';
+    this.state.symbols = {"EUR":"€","GBP":"£"};
+    this.state.equivalentAmount = '';
+  }
+
+  switchCurrency(){
+    console.log('NIAMH '+this.state.symbols["EUR"]);
+    var oldTo = this.state.convertTo;
+    var oldFrom = this.state.convertFrom;
+ 
+    this.setState((state) => {
+      return {
+        convertTo: oldFrom,
+        convertFrom: oldTo,
+        equivalentAmount:''
+      }
+    });
+  }
+
+  home(){
+
+  }
+
+  getAmount(amount){
+    this.setState((state) => {
+      return {
+        text: ''
+      }
+    });
+    var rates = fetch('http://api.fixer.io/latest?base='+this.state.convertFrom)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        this.setState((state) => {
+          return {
+            equivalentAmount: responseJson.rates[this.state.convertTo]*amount
+          }
+        });
+        return responseJson;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+
+        <TouchableHighlight style={styles.logo} onPress={this.home}><Image source={require('./logo.png')} /></TouchableHighlight>
+
+        <TouchableHighlight style={styles.switch} onPress={this.switchCurrency.bind(this)}><Image source={require('./switch.png')}/></TouchableHighlight>
+
+        <TextInput style={styles.amountInput} keyboardType='number-pad'  placeholder="Enter amount" onChangeText={(text) => this.setState({text})} value={this.state.text} onSubmitEditing={(event) => this.getAmount(event.nativeEvent.text)}></TextInput>
+
+        <Text style={styles.result}>{this.state.symbols[this.state.convertTo]+" "+this.state.equivalentAmount}</Text>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  amountInput:{
+    textAlign: 'center',
+    borderWidth:1,
+    borderColor:'#A19A9A',
+    color:'#A19A9A'
+  },
+  switch:{
+  },
+   logo:{
+    flex:1,
+  },
+  result:{
+    borderColor:'#A19A9A',
+    textAlign:'center',
+    fontSize:16,
+    borderWidth:1,
+    color:'#A19A9A'
+  }
+});
+
+AppRegistry.registerComponent('nomisma', () => nomisma);
