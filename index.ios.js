@@ -28,12 +28,14 @@ class nomisma extends Component {
   switchCurrency(){
     var oldTo = this.state.convertTo;
     var oldFrom = this.state.convertFrom;
- 
+    var main = this;
+    console.log('inside switch currency ');
     this.setState((state) => {
       return {
+        state:main.state.equivalentAmount,
         convertTo: oldFrom,
         convertFrom: oldTo,
-        equivalentAmount:''
+        equivalentAmount: main.state.equivalentAmount*main.state.convertFrom
       }
     });
   }
@@ -102,7 +104,6 @@ const styles = StyleSheet.create({
 
   },
   resultView:{
-    flex:0.5,
     flexDirection: 'row'
   },
   amountInput:{
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
   },
   amountEqv:{
     borderWidth:1,
-    borderColor:'#000',
+    borderColor:'#ffb3b3',
     height:50,
     padding:15,
     fontSize:16,
