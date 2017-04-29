@@ -11,12 +11,23 @@ class App extends Component {
       converted_amount: undefined,
       rates:undefined,
       symbols:{"EUR":"€","GPB":"£","USD":"$"},
-      amount_to_convert: ""
+      amount_to_convert: "",
+      show_menu : false
     }
   }
 
   componentDidMount(){
     this.get_rates()
+  }
+  toggle_menu_display(){
+
+  }
+
+  _render_menu(){
+    return(
+      <span>
+      </span>
+    )
   }
   /*
    * Get exchange rates from fixer.io api.
@@ -48,8 +59,8 @@ class App extends Component {
   calculate_amount(event) {
     var main=this;
     if( typeof event.target.value !== undefined && event.target.value !== ""){
-      var amount = parseInt(event.target.value) * main.state.rates[main.state.convert_to];
-      var amount_to_convert = isNaN(parseInt(event.target.value)) ? "" : parseInt(event.target.value);
+      var amount = parseInt(event.target.value,10) * main.state.rates[main.state.convert_to];
+      var amount_to_convert = isNaN(parseInt(event.target.value,10)) ? "" : parseInt(event.target.value,10);
       amount  = isNaN(amount) ? 0 : amount;
       this.setState({
         converted_amount : amount.toFixed(2),
@@ -68,6 +79,7 @@ class App extends Component {
       <div className="nomisma-web-app">
         <div className="header">
           <div className="title"> Nomisma </div>
+          <div className="menu-toggle">Change currency</div>
         </div>
         <div className="main-component">
           <div className="convert-from-container">
