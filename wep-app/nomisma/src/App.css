@@ -58,6 +58,21 @@
   outline:none;
   text-align:center;
 }
+.rates-menu{
+  border:1px solid #cccccc;
+  width:200px;
+  position: absolute;
+  top:50px;
+  right:0px;
+}
+.rates-menu select{
+  width:125px;
+  height:45px;
+  margin:0 auto;
+  margin-top:30px;
+  display: block;
+  margin-bottom:25px;
+}
 .main-component .button-container button{
   background-color: #FD6700;
   color:#fff;

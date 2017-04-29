@@ -6,11 +6,36 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      convert_from :"EUR",
-      convert_to: "USD",
+      convert_from :"GBP",
+      convert_to: "EUR",
       converted_amount: undefined,
       rates:undefined,
-      symbols:{"EUR":"€","GPB":"£","USD":"$"},
+      symbols:{"EUR":"€",
+               "GBP":"£",
+               "USD":"$",
+               "AUS":"AU$",
+               "BGN":"лв",
+               "BRL":"R$",
+               "CAD":"$",
+               "CHF":"CHF",
+               "DKK":"kr",
+               "HKD":"$(HK)",
+               "HUF":"Ft",
+               "IDR":"Rp",
+               "ILS":"₪",
+               "INR":"₹",
+               "JPY":"¥",
+               "KRW":"₩",
+               "MXN":"$(MEX)",
+               "RON":"lei",
+               "MYR":"RM",
+               "NOK":"kr",
+               "PHP":"₱",
+               "PLN":"zł",
+               "RUB":"₽",
+               "TRY":"₺",
+               "SEK":"kr",
+               "CNY":"¥" },
       amount_to_convert: "",
       show_menu : false
     }
@@ -19,20 +44,52 @@ class App extends Component {
   componentDidMount(){
     this.get_rates()
   }
+  /*
+   * Set the state that determines wether the menu is visible.
+   * Triggered on change currency button click.
+   * State value is boolean and set to value it is currently not.
+   */
   toggle_menu_display(){
-
+    var toggle = this.state.show_menu === true ? false:true;
+    this.setState({
+      show_menu : toggle
+    });
+  }
+  /*
+   *
+   */
+  change_from_rate(event){
+    console.log(event);
+    var main = this;
+    //event.target.value
+    this.setState({
+      convert_from : event.target.value
+    },function(resp){
+      main.get_rates();
+    })
+  }
+  change_to_rate(event){
+    this.setState({
+      convert_to : event.target.value
+    });
   }
 
   _render_menu(){
-    return(
-      <span>
-      </span>
-    )
+    var main = this;
+    var rates = this.state.rates;
+    console.log('typeof rates',typeof(rates));
+    var options = [];
+    if(this.state.rates!==undefined){
+      for(var rate in main.state.rates){
+        options.push(<option key={rate} value={rate}>{rate}</option>)
+      }
+    }
+    return(<div className="rates-menu"><div><select onChange={ (e) => main.change_from_rate(e) } id="change-from">{options}</select></div><div><select onChange={ (e) => main.change_to_rate(e) } id="change-to">{options}</select></div></div>)
   }
   /*
    * Get exchange rates from fixer.io api.
    * Set rates returned as state variable.
-   * Called on component load.
+   * Called on component load && base currency change
    */
   get_rates(){
     var main=this;
@@ -73,13 +130,23 @@ class App extends Component {
       })
     }
   }
+  /*
+   * Main render function. Called on state change.
+   */
   render() {
     var main=this;
     return (
       <div className="nomisma-web-app">
         <div className="header">
           <div className="title"> Nomisma </div>
-          <div className="menu-toggle">Change currency</div>
+          <div className="menu-toggle" onClick={ (e) => main.toggle_menu_display(e) } >Change currency</div>
+          {main.state.show_menu === true ?
+              <span>
+               {main._render_menu() }
+              </span>
+          : <span></span>
+          }
+          
         </div>
         <div className="main-component">
           <div className="convert-from-container">
@@ -93,6 +160,7 @@ class App extends Component {
             </div>
             : <span></span>
           }
+           
         </div>
       </div>
     );
